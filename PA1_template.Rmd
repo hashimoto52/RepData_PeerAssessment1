@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Loading and preprocessing the data
-1, First of all, the data is loaded.
+####1, First of all, the data is loaded.
 ```{r}
 url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
 temp <- tempfile()
@@ -19,7 +19,7 @@ dataset <- read.csv("activity.csv")
 unlink(temp)
 
 ```
-2, Then, processed into a format suitable.
+####2, Then, processed into a format suitable.
 
 The "data_tbl" is the same data as the original but tbl format.
 The "data_date" is the data ignoring NA values.
@@ -36,7 +36,7 @@ data_date <- data_tbl %>%
                 print()
 ```
 ## What is mean total number of steps taken per day?
-1, Make the histogram of the total number of steps taken each day.
+####1, Make the histogram of the total number of steps taken each day.
 ```{r}
 library(ggplot2)
 g <- qplot(data_date$steps_sum, 
@@ -44,7 +44,8 @@ g <- qplot(data_date$steps_sum,
            xlab="Total Number of Steps per Day")
 print(g)
 ```
-2, Calculate and report the mean and median total number of steps taken per day.
+
+####2, Calculate and report the mean and median total number of steps taken per day.
 
 The "data_sum" is the summrary of data_date, contains the mean and median total number of steps taken per day.
 ```{r}
@@ -56,7 +57,7 @@ data_sum <- data_tbl %>%
                 print()
 ```
 ## What is the average daily activity pattern?
-1, Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+####1, Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
 The "data_int" is the data grouped by interval, ignoring NA values.
 ```{r}
@@ -70,7 +71,8 @@ plot(data_int$interval,data_int$steps_mean,
      xlab="5-minutes interval",
      ylab="Average Number of Steps Averaged across All Days")
 ```
-2,Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+
+####2,Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 At first, I need to get the maximum number of steps.
 
@@ -87,20 +89,21 @@ data_max
 Here is the answer, the 835th interval contains the maximum number of steps on average.
 
 ## Imputing missing values
-1,Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+####1,Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 
 ```{r}
 sum(is.na(data_tbl$steps))
 ```
 The total number of rows with NAs is 2304.
 
-2, Devise a strategy for filling in all of the missing values in the dataset. I will use the mean of steps per day for replacing NAs. Some days have no steps data (all steps data are NA), so if it is, 0 (zero) is intoroduced.
+####2, Devise a strategy for filling in all of the missing values in the dataset. 
+I will use the mean of steps per day for replacing NAs. Some days have no steps data (all steps data are NA), so if it is, 0 (zero) is intoroduced.
 
 First, I make a data table for prepare.
 ```{r}
 data_4 <- left_join(data_tbl,data_sum, by="date")
 ```
-Then, fill in the values.
+Then, fill in the values. The "steps_rep" is the new steps data filled in all the missing values.
 ```{r}
 data_rep <- data_4 %>%
         mutate( steps_rep = ifelse(is.na(steps),
@@ -109,9 +112,9 @@ data_rep <- data_4 %>%
         print()
 
 ```
-The "steps_rep" is the new steps data filled in all the missing values.
 
-3, Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
+####3, Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
 The "data_rep" contains the new steps data but some variables are unnecessary now, so I make new dataset, selecting necessary variables from "data_rep".
 
@@ -120,7 +123,9 @@ data_new <- data_rep %>%
                 select(steps_rep,date,interval) %>%
                 print()
 ```
-4, Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. 
+####4, Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day.
+
+The same way as the first part.
 
 ```{r}
 data_date_new <- data_new %>%
@@ -132,18 +137,19 @@ g <- qplot(data_date_new$steps_sum,
            xlab="Total Number of Steps per Day")
 print(g)
 ```
-Do these values differ from the estimates from the first part of the assignment?
+
+####Do these values differ from the estimates from the first part of the assignment?
 -> Yes, they do.
 
-What is the impact of imputing missing data on the estimates of the total daily number of steps?
--> There is one peak in the histogram from the first part. This histogram suggests the data have taken from one population.
+####What is the impact of imputing missing data on the estimates of the total daily number of steps?
+-> There is one peak in the histogram from the first part. This suggests the data have taken from one population.
 
 On the other hand, there are two peaks in the histogram from this part.
 
-The second histogram suggests that the data contains at least 2 population which have different features from each other. 
+The second histogram suggests that the data contains at least 2 groups which have different features from each other. 
 
 ## Are there differences in activity patterns between weekdays and weekends?
-1,Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+####1,Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
 ```{r}
 Sys.setlocale("LC_TIME","English")
 weekends <- c("Sunday","Saturday")
@@ -153,7 +159,7 @@ data_new <- data_new %>%
         print()
 ```
 
-2, Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was created using simulated data:
+####2, Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
 
 ```{r}
 data_week <- data_new %>%
