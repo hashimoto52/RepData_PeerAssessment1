@@ -169,6 +169,8 @@ data_week <- data_new %>%
 library(lattice)
 
 xyplot(steps_mean ~ interval | week,
-       data = data_week, layout=c(1,2),type="l")
+       data = data_week, layout=c(1,2),type="l",
+       xlab = "Interval",
+       ylab = "Number of Steps")
 
 ```
