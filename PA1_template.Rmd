@@ -24,7 +24,7 @@ unlink(temp)
 The "data_tbl" is the same data as the original but tbl format.
 The "data_date" is the data ignoring NA values.
 
-```{r echo=TRUE}
+```{r echo=TRUE, warning=FALSE}
 library(dplyr)
 
 data_tbl <- tbl_df(dataset)
@@ -37,7 +37,7 @@ data_date <- data_tbl %>%
 ```
 ## What is mean total number of steps taken per day?
 #### 1, Make the histogram of the total number of steps taken each day.
-```{r echo=TRUE, fig.width=4, fig.height=4}
+```{r echo=TRUE, fig.width=4, fig.height=4,dev="png",warning=FALSE}
 library(ggplot2)
 g <- qplot(data_date$steps_sum, 
            geom="histogram", 
