@@ -53,7 +53,7 @@ What is mean total number of steps taken per day?
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](PA1_template_files/figure-markdown_strict/unnamed-chunk-3-1.png)
+![](instructions_fig/histogram1.png)
 
 #### 2, Calculate and report the mean and median total number of steps taken per day.
 
@@ -114,8 +114,8 @@ The "data\_int" is the data grouped by interval, ignoring NA values.
          type="l",
          xlab="5-minutes interval",
          ylab="Average Number of Steps Averaged across All Days")
-
-![](PA1_template_files/figure-markdown_strict/unnamed-chunk-5-1.png)
+         
+![](instructions_fig/plot_time_series.png)
 
 #### 2,Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -242,8 +242,8 @@ The same way as the first part.
     print(g)
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-
-![](PA1_template_files/figure-markdown_strict/unnamed-chunk-12-1.png)
+    
+![](instructions_fig/histogram2.png)
 
 #### Do these values differ from the estimates from the first part of the assignment?
 
@@ -320,4 +320,4 @@ Are there differences in activity patterns between weekdays and weekends?
            xlab = "Interval",
            ylab = "Number of Steps")
 
-![](PA1_template_files/figure-markdown_strict/unnamed-chunk-14-1.png)
+![](instructions_fig/panel_plot.png)
