@@ -24,7 +24,7 @@ unlink(temp)
 The "data_tbl" is the same data as the original but tbl format.
 The "data_date" is the data ignoring NA values.
 
-```{r}
+```{r echo=TRUE}
 library(dplyr)
 
 data_tbl <- tbl_df(dataset)
@@ -37,7 +37,7 @@ data_date <- data_tbl %>%
 ```
 ## What is mean total number of steps taken per day?
 #### 1, Make the histogram of the total number of steps taken each day.
-```{r}
+```{r echo=TRUE}
 library(ggplot2)
 g <- qplot(data_date$steps_sum, 
            geom="histogram", 
@@ -48,7 +48,7 @@ print(g)
 #### 2, Calculate and report the mean and median total number of steps taken per day.
 
 The "data_sum" is the summrary of data_date, contains the mean and median total number of steps taken per day.
-```{r}
+```{r echo=TRUE}
 data_sum <- data_tbl %>%
                 filter(steps != "NA") %>%
                 group_by(date) %>%
@@ -60,7 +60,7 @@ data_sum <- data_tbl %>%
 #### 1, Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
 The "data_int" is the data grouped by interval, ignoring NA values.
-```{r}
+```{r echo=TRUE}
 data_int <- data_tbl %>%
                 filter(steps != "NA") %>%
                 group_by(interval) %>%
@@ -76,13 +76,13 @@ plot(data_int$interval,data_int$steps_mean,
 
 At first, I need to get the maximum number of steps.
 
-```{r}
+```{r echo=TRUE}
 summary(data_int$steps_mean)
 ```
 Here, I see the maximum number of steps is 206.2.
 
 Then I search the interval number which contains the number of steps over 206.
-```{r}
+```{r echo=TRUE}
 data_max <- filter(data_int,steps_mean > 206)
 data_max
 ```
@@ -91,7 +91,7 @@ Here is the answer, the 835th interval contains the maximum number of steps on a
 ## Imputing missing values
 #### 1,Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 
-```{r}
+```{r echo=TRUE}
 sum(is.na(data_tbl$steps))
 ```
 The total number of rows with NAs is 2304.
@@ -100,11 +100,11 @@ The total number of rows with NAs is 2304.
 I will use the mean of steps per day for replacing NAs. Some days have no steps data (all steps data are NA), so if it is, 0 (zero) is intoroduced.
 
 First, I make a data table for prepare.
-```{r}
+```{r echo=TRUE}
 data_4 <- left_join(data_tbl,data_sum, by="date")
 ```
 Then, fill in the values. The "steps_rep" is the new steps data filled in all the missing values.
-```{r}
+```{r echo=TRUE}
 data_rep <- data_4 %>%
         mutate( steps_rep = ifelse(is.na(steps),
                               ifelse(is.na(steps_mean),0,steps_mean),
@@ -118,7 +118,7 @@ data_rep <- data_4 %>%
 
 The "data_rep" contains the new steps data but some variables are unnecessary now, so I make new dataset, selecting necessary variables from "data_rep".
 
-```{r}
+```{r echo=TRUE}
 data_new <- data_rep %>%
                 select(steps_rep,date,interval) %>%
                 print()
@@ -127,7 +127,7 @@ data_new <- data_rep %>%
 
 The same way as the first part.
 
-```{r}
+```{r echo=TRUE}
 data_date_new <- data_new %>%
         group_by(date) %>%
         summarise( steps_sum = sum(steps_rep)) %>%
@@ -150,7 +150,7 @@ The second histogram suggests that the data contains at least 2 groups which hav
 
 ## Are there differences in activity patterns between weekdays and weekends?
 #### 1,Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
-```{r}
+```{r echo=TRUE}
 Sys.setlocale("LC_TIME","English")
 weekends <- c("Sunday","Saturday")
 data_new <- data_new %>%
@@ -161,7 +161,7 @@ data_new <- data_new %>%
 
 #### 2, Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
 
-```{r}
+```{r echo=TRUE}
 data_week <- data_new %>%
                 group_by(week,interval) %>%
                 summarise(steps_mean = mean(steps_rep)) %>%
