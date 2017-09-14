@@ -37,7 +37,7 @@ data_date <- data_tbl %>%
 ```
 ## What is mean total number of steps taken per day?
 #### 1, Make the histogram of the total number of steps taken each day.
-```{r echo=TRUE}
+```{r echo=TRUE, fig.width=4, fig.height=4}
 library(ggplot2)
 g <- qplot(data_date$steps_sum, 
            geom="histogram", 
