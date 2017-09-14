@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Loading and preprocessing the data
 #### 1, First of all, the data is loaded.
-```{r}
+```{r echo=TRUE}
 url <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
 temp <- tempfile()
 download.file(url,temp)
